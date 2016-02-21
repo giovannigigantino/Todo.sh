@@ -15,7 +15,7 @@ function initFile(){
 	touch $todo_file
 	
 	if $boolDebug; then
-		echo "$todo_file file created."
+		echo "'$todo_file' file created."
 	fi
 }
 
@@ -25,10 +25,10 @@ function destroy(){
 		rm $todo_file
 
 		if $boolDebug; then
-			echo "$todo_file file destroyed."
+			echo "'$todo_file' file destroyed."
 		fi
 	else
-		error "Error: No $todo_file file found."
+		error "no '$todo_file' file found."
 	fi
 }
 
@@ -41,10 +41,10 @@ function readFile(){
 		done < $todo_file
 
 		if $boolDebug; then
-			echo "$todo_file file readed."
+			echo "'$todo_file' file readed."
 		fi
 	else
-		error "Error: No $todo_file file found."
+		error "no '$todo_file' file found."
 	fi
 }
 
@@ -58,10 +58,10 @@ function writeFile(){
 		done
 
 		if $boolDebug; then
-			echo "$todo_file file writed."
+			echo "'$todo_file' file writed."
 		fi
 	else
-		error "Error: No $todo_file file found."
+		error "no '$todo_file' file found."
 	fi
 }
 
@@ -80,7 +80,7 @@ function insertElement(){
 #
 # $1  Element position
 function removeElement(){
-	todo=(${todo[@]:0:$1} ${todo[@]:$(($1+1))})
+	todo=("${todo[@]:0:$1} ${todo[@]:$(($1+1))}")
 
 	if $boolDebug; then
 		echo "Element removed."
@@ -98,7 +98,7 @@ function printList(){
 #
 # $1  Body of the message
 function error(){
-	echo "$1"
+	echo "Error: $1"
 }
 
 #-- MAIN
@@ -130,7 +130,9 @@ if [[ $# > 0 ]]; then
 		destroy
 		;;
 		*)
-		error "Error: try to check help option."
+		error "try to check help option."
 		;;
 	esac
+else
+	error "no params founded."
 fi
