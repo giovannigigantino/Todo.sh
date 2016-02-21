@@ -96,6 +96,8 @@ function removeElement(){
 
 # Prints, in formatted way, the content of $todo array.
 function printList(){
+	echo "ToDo list:"
+	
 	for i in ${!todo[@]}; do
 		echo $i: ${todo[$i]}
 	done
