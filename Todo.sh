@@ -6,8 +6,7 @@
 #-- VAR
 todo=()
 todo_file="./.todo"
-# boolDebug is a bool var used to toggle the debug functions.
-boolDebug=false
+boolDebug=false  # boolDebug is a bool var used to toggle the debug functions.
 
 #-- FUNC
 # Creates $todo_file
@@ -80,7 +79,15 @@ function insertElement(){
 #
 # $1  Element position
 function removeElement(){
-	todo=("${todo[@]:0:$1} ${todo[@]:$(($1+1))}")
+	delete=${todo[$1]}
+	new_array=()
+
+	for value in "${todo[@]}"; do
+	    [[ $value != $delete ]] && new_array+=("$value")
+	done
+
+	todo=("${new_array[@]}")
+	unset new_array
 
 	if $boolDebug; then
 		echo "Element removed."
