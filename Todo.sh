@@ -101,6 +101,15 @@ function printList(){
 	done
 }
 
+# Checks if $todo_file exists.
+function check() {
+	if [[ -f $todo_file ]]; then
+		echo "Yes: '$todo_file file' found."
+	else
+		echo "No: '$todo_file' not found."
+	fi
+}
+
 # Prints an error message.
 #
 # $1  Body of the message
@@ -127,10 +136,13 @@ if [[ $# > 0 ]]; then
 		printList
 		;;
 		# Element remove
-		rem)
+		rm)
 		readFile
 		removeElement $2
 		writeFile
+		;;
+		check)
+		check
 		;;
 		# Script remove
 		destroy)
@@ -141,5 +153,6 @@ if [[ $# > 0 ]]; then
 		;;
 	esac
 else
-	error "no params founded."
+	readFile
+	printList
 fi
