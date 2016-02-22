@@ -6,6 +6,7 @@
 #-- VAR
 todo=()
 todo_file="./.todo"
+todo_old_file="./.old"
 boolDebug=false  # boolDebug is a bool var used to toggle the debug functions.
 
 #-- FUNC
@@ -23,6 +24,10 @@ function destroy(){
 	if [ -f "$todo_file" ]; then
 		rm $todo_file
 
+		if [ -f "$todo_old_file" ]; then
+			rm $todo_old_file
+		fi
+			
 		if $boolDebug; then
 			echo "'$todo_file' file destroyed."
 		fi
@@ -82,6 +87,9 @@ function removeElement(){
 	delete=${todo[$1]}
 	new_array=()
 
+	touch $todo_old_file
+	echo $delete >> $todo_old_file
+
 	for value in "${todo[@]}"; do
 	    [[ $value != $delete ]] && new_array+=("$value")
 	done
@@ -96,7 +104,9 @@ function removeElement(){
 
 # Prints, in formatted way, the content of $todo array.
 function printList(){
-	echo "ToDo list:"
+	if [[ $todo != "" ]]; then
+		echo "ToDo list:"
+	fi
 	
 	for i in ${!todo[@]}; do
 		echo $i: ${todo[$i]}
@@ -110,6 +120,20 @@ function check() {
 	else
 		echo "No: '$todo_file' not found."
 	fi
+}
+
+# Prints a short guide of the script
+function todo_help() {
+	echo -e "Todo.sh  <giovanni.gigantino.843@gmail.com
+To do list bash script.
+Usage:
+	todo init              Iniatialize a list to in the current directory
+	todo add <'Thing'>     Add 'Thing' to your list
+	todo rm <ID>           Remove from the list the selected element
+	todo ls                Show a list with the elements of the list and their ID
+	todo check             Check if in the current directory a todo list is initializated
+	todo destroy           Remove the list from the current directory
+	todo help              Show this help"
 }
 
 # Prints an error message.
@@ -149,6 +173,10 @@ if [[ $# > 0 ]]; then
 		# Script remove
 		destroy)
 		destroy
+		;;
+		# Help
+		help)
+		todo_help
 		;;
 		*)
 		error "try to check help option."
