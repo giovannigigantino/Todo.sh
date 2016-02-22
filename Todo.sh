@@ -155,6 +155,5 @@ if [[ $# > 0 ]]; then
 		;;
 	esac
 else
-	readFile
-	printList
+	error "no params given."
 fi
