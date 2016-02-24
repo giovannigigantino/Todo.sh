@@ -125,7 +125,8 @@ function check() {
 # Reads the todo list completed elements from the file.
 function doneTodo(){
 	if [ -f "$todo_done_file" ]; then
-		echo $todo_done_file
+		echo "ToDo done list:"
+		echo $(cat $todo_done_file)
 
 		if $boolDebug; then
 			echo "'$todo_done_file' file readed."
