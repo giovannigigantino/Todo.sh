@@ -24,12 +24,12 @@ function destroy(){
 	if [ -f "$todo_file" ]; then
 		rm $todo_file
 
-		if [ -f "$todo_old_file" ]; then
+		if [ -f "$todo_done_file" ]; then
 			rm $todo_done_file
 		fi
 			
 		if $boolDebug; then
-			echo "'$todo_file' file destroyed."
+			echo "'$todo_file' and $todo_done_file files destroyed."
 		fi
 	else
 		error "no '$todo_file' file found."
