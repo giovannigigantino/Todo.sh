@@ -126,7 +126,10 @@ function check() {
 function doneTodo(){
 	if [ -f "$todo_done_file" ]; then
 		echo "ToDo done list:"
-		echo $(cat $todo_done_file)
+
+		while read line; do
+			echo " X "$line
+		done < $todo_done_file
 
 		if $boolDebug; then
 			echo "'$todo_done_file' file readed."
