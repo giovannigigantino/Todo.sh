@@ -133,6 +133,7 @@ function doneTodo(){
 	else
 		error "no '$todo_done_file' file found."
 	fi
+}
 
 # Prints a short guide of the script
 function todo_help() {
