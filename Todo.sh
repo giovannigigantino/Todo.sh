@@ -6,7 +6,7 @@
 #-- VAR
 todo=()
 todo_file="./.todo"
-todo_old_file="./.old"
+todo_done_file="./.done"
 boolDebug=false  # boolDebug is a bool var used to toggle the debug functions.
 
 #-- FUNC
@@ -25,7 +25,7 @@ function destroy(){
 		rm $todo_file
 
 		if [ -f "$todo_old_file" ]; then
-			rm $todo_old_file
+			rm $todo_done_file
 		fi
 			
 		if $boolDebug; then
@@ -87,8 +87,8 @@ function removeElement(){
 	delete=${todo[$1]}
 	new_array=()
 
-	touch $todo_old_file
-	echo $delete >> $todo_old_file
+	touch $todo_done_file
+	echo $delete >> $todo_done_file
 
 	for value in "${todo[@]}"; do
 	    [[ $value != $delete ]] && new_array+=("$value")
@@ -121,6 +121,18 @@ function check() {
 		echo "No: '$todo_file' not found."
 	fi
 }
+
+# Reads the todo list completed elements from the file.
+function doneTodo(){
+	if [ -f "$todo_done_file" ]; then
+		echo $todo_done_file
+
+		if $boolDebug; then
+			echo "'$todo_done_file' file readed."
+		fi
+	else
+		error "no '$todo_done_file' file found."
+	fi
 
 # Prints a short guide of the script
 function todo_help() {
@@ -173,6 +185,10 @@ if [[ $# > 0 ]]; then
 		# Script remove
 		destroy)
 		destroy
+		;;
+		# Done todo
+		done)
+		doneTodo
 		;;
 		# Help
 		help)
